@@ -41,3 +41,10 @@ To assess this we will clone your repository, add our own credentials to the clo
 
 In addition to the Student details add in details of different Courses and reference them from the Student details as a Foreign Key relationship. The endpoints for Courses should be completed as expected.
 
+## TO RUN THE APPLICATION
+
+1. Open terminal and paste the following commands to run the application
+```bash
+docker run -dp 4000:4000 -e DB_USERNAME={REPLACE_WITH_DB_USERNAME} -e DB_PASSWORD={REPLACE_WITH_DB_PASSWORD} -e DB_URL={REPLACE_WITH_DB_URL} docker-day-1
+docker build -t docker-day-1 .
+```
