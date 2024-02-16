@@ -1,6 +1,8 @@
 package com.booleanuk.api.controllers;
 
+import com.booleanuk.api.models.Course;
 import com.booleanuk.api.models.Student;
+import com.booleanuk.api.repositories.CourseRepository;
 import com.booleanuk.api.repositories.StudentRepository;
 import com.booleanuk.api.responses.ErrorResponse;
 import com.booleanuk.api.responses.Response;
@@ -11,11 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("students")
 public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     @GetMapping
     public ResponseEntity<StudentListResponse> getAllStudents() {
@@ -28,6 +34,7 @@ public class StudentController {
     public ResponseEntity<Response<?>> createStudent(@RequestBody Student student) {
         StudentResponse studentResponse = new StudentResponse();
         try {
+            student.setCourses(new ArrayList<>());
             studentResponse.set(this.studentRepository.save(student));
         } catch (Exception e) {
             ErrorResponse error = new ErrorResponse();
@@ -61,8 +68,6 @@ public class StudentController {
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDateOfBirth(student.getDateOfBirth());
-        studentToUpdate.setCourseTitle(student.getCourseTitle());
-        studentToUpdate.setStartDateCourse(student.getStartDateCourse());
         studentToUpdate.setAverageGrade(student.getAverageGrade());
 
         try {
@@ -85,7 +90,13 @@ public class StudentController {
             error.set("not found");
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
+        if (!studentToDelete.getCourses().isEmpty()) {
+            for (Course course : studentToDelete.getCourses()) {
+                this.courseRepository.delete(course);
+            }
+        }
         this.studentRepository.delete(studentToDelete);
+        studentToDelete.setCourses(new ArrayList<>());
         StudentResponse studentResponse = new StudentResponse();
         studentResponse.set(studentToDelete);
         return ResponseEntity.ok(studentResponse);
