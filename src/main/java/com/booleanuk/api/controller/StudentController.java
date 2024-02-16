@@ -48,8 +48,6 @@ public class StudentController {
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDateOfBirth(student.getDateOfBirth());
-        studentToUpdate.setCourse(student.getCourse());
-        studentToUpdate.setStartDate(student.getStartDate());
 
         this.studentRepository.save(studentToUpdate);
         return new ResponseEntity<>(studentToUpdate, HttpStatus.CREATED);
