@@ -1,6 +1,8 @@
 package com.booleanuk.api.controller;
 
+import com.booleanuk.api.model.Course;
 import com.booleanuk.api.model.Student;
+import com.booleanuk.api.repository.CourseRepository;
 import com.booleanuk.api.repository.StudentRepository;
 import com.booleanuk.api.response.ErrorResponse;
 import com.booleanuk.api.response.Response;
@@ -11,13 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("students")
 public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @GetMapping
     public ResponseEntity<StudentListResponse> getAllStudents() {
@@ -41,24 +45,34 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
-    public ResponseEntity<Response<?>> createStudent(@RequestBody Student student) {
+    @PostMapping("/course/{course_id}")
+    public ResponseEntity<Response<?>> createStudent(@PathVariable int course_id,
+                                                     @RequestBody Student student) {
         // 400 Bad request if not all fields are present
         if (student.getFirstName() == null || student.getLastName() == null ||
-                student.getDateOfBirth() == null || student.getCourseTitle() == null ||
-                student.getCourseStartDate() == null) {
+                student.getDateOfBirth() == null) {
             ErrorResponse error = new ErrorResponse();
             error.set("Bad request, please check all fields are correct.");
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
+        // Set course
+        Course course = this.courseRepository.findById(course_id).orElse(null);
+        if (course == null) {
+            ErrorResponse error = new ErrorResponse();
+            error.set("Course with that id not found.");
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
+        student.setCourse(course);
         // Make response
         StudentResponse response = new StudentResponse();
         response.set(this.studentRepository.save(student));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Response<?>> updateStudent(@PathVariable int id, @RequestBody Student student) {
+    @PutMapping("/{id}/course/{course_id}")
+    public ResponseEntity<Response<?>> updateStudent(@PathVariable int id,
+                                                     @PathVariable int course_id,
+                                                     @RequestBody Student student) {
         Student studentToUpdate = this.studentRepository.findById(id).orElse(null);
         // 404 Not found if no student with that id
         if(studentToUpdate == null) {
@@ -66,10 +80,17 @@ public class StudentController {
             error.set("Student with that id not found.");
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
+        // 404 Not found if course don't exist
+        Course course = this.courseRepository.findById(course_id).orElse(null);
+        if (course == null) {
+            ErrorResponse error = new ErrorResponse();
+            error.set("Course with that id not found.");
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
+        studentToUpdate.setCourse(course);
         // 400 Bad request if no fields are present
         if (student.getFirstName() == null && student.getLastName() == null &&
-                student.getDateOfBirth() == null && student.getCourseTitle() == null &&
-                student.getCourseStartDate() == null && student.getAverageGrade() == null) {
+                student.getDateOfBirth() == null && student.getAverageGrade() == null) {
             ErrorResponse error = new ErrorResponse();
             error.set("Bad request, please check all fields are correct.");
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -83,12 +104,6 @@ public class StudentController {
         }
         if (student.getDateOfBirth() != null) {
             studentToUpdate.setDateOfBirth(student.getDateOfBirth());
-        }
-        if (student.getCourseTitle() != null) {
-            studentToUpdate.setCourseTitle(student.getCourseTitle());
-        }
-        if (student.getCourseStartDate() != null) {
-            studentToUpdate.setCourseStartDate(student.getCourseStartDate());
         }
         if (student.getAverageGrade() != null) {
             studentToUpdate.setAverageGrade(student.getAverageGrade());
