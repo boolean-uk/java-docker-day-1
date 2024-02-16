@@ -1,5 +1,7 @@
 package com.booleanuk.api.student;
 
+import com.booleanuk.api.course.Course;
+import com.booleanuk.api.course.CourseRepository;
 import com.booleanuk.api.response.*;
 import com.booleanuk.api.response.Error;
 import com.booleanuk.api.student.Student;
@@ -18,6 +20,8 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
     @GetMapping
     public ResponseEntity<Response> getAll() {
         return new ResponseEntity<>(new StudentListResponse(this.studentRepository.findAll()), HttpStatus.OK);
@@ -37,7 +41,15 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<Response> createStudent(@RequestBody Student student) {
 
-        if(student.getFirstName().isEmpty() || student.getLastName().isEmpty() || student.getDateOfBirth().isEmpty() || student.getTitle().isEmpty()){
+        Course course = this.courseRepository
+                .findById(student.getCourse().getId())
+                .orElse(null);
+        if(course == null) {
+            return new ResponseEntity<>(new ErrorResponse(new Error("Course not found")), HttpStatus.NOT_FOUND);
+        }
+
+        student.setCourse(course);
+        if(student.getFirstName().isEmpty() || student.getLastName().isEmpty() || student.getDateOfBirth().isEmpty()){
             return new ResponseEntity<>(new ErrorResponse(new Error("Bad Request")), HttpStatus.BAD_REQUEST);
         }
 
@@ -68,14 +80,22 @@ public class StudentController {
             return new ResponseEntity<>(new ErrorResponse(new Error("Student not found")), HttpStatus.NOT_FOUND);
         }
 
-        if(student.getFirstName().isEmpty() || student.getLastName().isEmpty() || student.getDateOfBirth().isEmpty() || student.getTitle().isEmpty()){
+
+        if(student.getFirstName().isEmpty() || student.getLastName().isEmpty() || student.getDateOfBirth().isEmpty()){
             return new ResponseEntity<>(new ErrorResponse(new Error("Bad Request")), HttpStatus.BAD_REQUEST);
         }
+
+        Course course = this.courseRepository
+                .findById(student.getCourse().getId())
+                .orElse(null);
+        if(course == null) {
+            return new ResponseEntity<>(new ErrorResponse(new Error("Course not found")), HttpStatus.NOT_FOUND);
+        }
+
+        studentToUpdate.setCourse(course);
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDateOfBirth(student.getDateOfBirth());
-        studentToUpdate.setTitle(student.getTitle());
-        studentToUpdate.setStartDateCourse(student.getStartDateCourse());
         studentToUpdate.setAvgGrade(student.getAvgGrade());
 
         this.studentRepository.save(studentToUpdate);

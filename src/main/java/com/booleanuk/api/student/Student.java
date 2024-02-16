@@ -1,6 +1,8 @@
 package com.booleanuk.api.student;
 
 import com.booleanuk.api.course.Course;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,20 +31,17 @@ public class Student {
     private String DateOfBirth;
 
     @Column
-    private String Title;
-
-    @Column
-    private LocalDateTime startDateCourse;
-
-    @Column
     private float avgGrade;
 
-//    @ManyToOne
-//    @JoinColumn(name = "course_id", nullable = false)
-//    private Course course;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @JsonIncludeProperties(value = "title")
+    private Course course;
 
-    public Student(String firstName, String lastName) {
+    public Student(String firstName, String lastName, String dateOfBirth, float avgGrade) {
         this.firstName = firstName;
         this.lastName = lastName;
+        DateOfBirth = dateOfBirth;
+        this.avgGrade = avgGrade;
     }
 }
