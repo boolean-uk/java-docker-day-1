@@ -1,5 +1,7 @@
 package com.booleanuk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,7 @@ public class Course {
     private char avgGrade;
 
     @OneToMany(mappedBy = "course")
+    @JsonIgnore
     private List<Student> students;
 
     public Course(String title, LocalDate startDate, char avgGrade) {

@@ -1,5 +1,6 @@
 package com.booleanuk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonIncludeProperties(value = {"title"})
     private Course course;
 
     public Student(String firstName, String lastName, LocalDate dob) {
