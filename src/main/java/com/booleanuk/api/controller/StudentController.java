@@ -31,7 +31,6 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Response<?>> createStudent(@RequestBody Student student) {
-        System.out.println(student.getFirstName() + " " + student.getLastName() + " " + student.getDob() + " " + student.getGrade() + " " + student.getCourse());
         if(containsNull(student)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("bad request"));
         }
