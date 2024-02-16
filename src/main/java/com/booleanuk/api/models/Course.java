@@ -31,4 +31,8 @@ public class Course {
     @JsonIgnore
     private List<Student> students;
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Module> modules;
+
 }
