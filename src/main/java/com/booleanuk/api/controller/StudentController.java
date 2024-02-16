@@ -126,7 +126,16 @@ public class StudentController {
             errorResponse.set("Not found");
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
-
+        for(Course ids : studentToDelete.getCourses())
+        {
+            Course tempCourse = this.courseRepository.findById(ids.getId()).orElse(null);
+            if(tempCourse == null)  {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.set("Not found");
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
+            tempCourse.getStudents().remove(studentToDelete);
+        }
         this.studentRepository.delete(studentToDelete);
         StudentResponse studentResponse = new StudentResponse();
         studentResponse.set(studentToDelete);

@@ -25,7 +25,7 @@ public class Student {
     @Column
     private LocalDate dob;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "Student_Course",
             joinColumns = @JoinColumn(name = "course_id"),
