@@ -1,5 +1,6 @@
 package com.booleanuk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Student {
     private String lastName;
 
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     @ManyToOne
