@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### PERSONAL ###
+src/main/resources/application.yml
+*.jar
