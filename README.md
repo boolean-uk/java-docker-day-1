@@ -40,3 +40,10 @@ To assess this we will clone your repository, add our own credentials to the clo
 
 Extend the course details by adding another set of endpoints for modules, that make up courses. Modules can be part of multiple courses at the same time (EG they might complete a GitHub module in various courses, but the module itself has the same content across courses.) Link these to the students and courses in whatever way logically works for you. What extra endpoints does it make sense for a student t be able to view, that will give them extra insights and an overview of their studies? Add them to your solution.
 
+## TO RUN THE APPLICATION
+
+1. Open terminal and paste the following commands to run the application
+```bash
+docker run -dp 4000:4000 -e DB_USERNAME={REPLACE_WITH_DB_USERNAME} -e DB_PASSWORD={REPLACE_WITH_DB_PASSWORD} -e DB_URL={REPLACE_WITH_DB_URL} docker-day-1
+docker build -t docker-day-1 .
+```
