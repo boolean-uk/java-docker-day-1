@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("students")
@@ -14,8 +15,14 @@ public class StudentController {
     @Autowired
     StudentRepository students;
 
+    @Autowired
+    CourseRepository courses;
+
     @PostMapping
-    public ResponseEntity<Student> create(@RequestBody Student student){
+    public ResponseEntity<Student> create(@RequestBody Student student, @RequestParam(name = "course_id", required = true) int courseId){
+        Course tempCourse = courses.findById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        student.setCourse(tempCourse);
+
         return new ResponseEntity<>(students.save(student), HttpStatus.CREATED);
     }
 
@@ -25,17 +32,25 @@ public class StudentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Student> update(@PathVariable int id, @RequestBody Student student){
+    public ResponseEntity<Student> update(@PathVariable int id,
+                                          @RequestBody Student student,
+                                          @RequestParam(name = "course_id", required = false) Integer courseId){
         Student toUpdate = students
                 .findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND));
 
+        if (courseId != null){
+            Course tempCourse = courses
+                    .findById(courseId)
+                    .orElseThrow(() ->
+                            new ResponseStatusException(HttpStatus.NOT_FOUND));
+            toUpdate.setCourse(tempCourse);
+        }
+
         toUpdate.setFirstName(student.getFirstName());
         toUpdate.setLastName(student.getLastName());
         toUpdate.setDob(student.getDob());
-        toUpdate.setCourseTitle(student.getCourseTitle());
-        toUpdate.setCourseStartDate(student.getCourseStartDate());
         students.save(toUpdate);
 
         return new ResponseEntity<>(toUpdate, HttpStatus.CREATED);

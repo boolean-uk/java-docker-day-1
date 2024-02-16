@@ -9,9 +9,88 @@ servers:
   - url: http://localhost:4000
 
 tags:
-  - name: students
+  - name: students, courses
 
 paths:
+  /courses:
+    post:
+      tags:
+        - courses
+      summary: course POST route
+      description: Adds course
+      operationId: addCourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    get:
+      tags:
+        - courses
+      summary: Course GET route
+      description: Get all courses
+      operationId: getAllCourses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllCourses'
+
+  /courses/{id}:
+    put:
+      tags:
+        - courses
+      summary: Course PUT route
+      description: Update course
+      operationId: updateCourse
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    delete:
+      tags:
+        - courses
+      summary: Course DELETE route
+      description: Deletes course
+      operationId: deleteCourse
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
   /students:
     post:
       tags:
@@ -94,6 +173,33 @@ paths:
 
 components:
   schemas:
+    CreateCourse:
+      type: object
+      required: [ title, startDate ]
+      properties:
+        title:
+          type: string
+          example: "Course"
+        startDate:
+          type: string
+          example: "04.04.03"
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Course"
+        startDate:
+          type: string
+          example: "03.03.03"
+    AllCourses:
+      type: array
+      items:
+        $ref: '#/components/schemas/Course'
+
     CreateStudent:
       type: object
       required: [firstName, lastName, dob, courseTitle, courseStartDate]
