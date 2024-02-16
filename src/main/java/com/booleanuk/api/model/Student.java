@@ -27,30 +27,18 @@ public class Student {
     @Column
     private LocalDateTime dateOfBirth;
 
-    @Column(name = "course_title")
-    private String courseTitle;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column
-    private LocalDateTime courseStartDate;
-
     @Column(name = "average_grade")
     private String averageGrade;
 
-    /*
     @ManyToOne
-    @JoinColumn(name = "author_id",nullable = false)
-    @JsonIncludeProperties(value ={""})
+    @JoinColumn(name = "course_id",nullable = false)
+    @JsonIncludeProperties(value ={"courseTitle"})
     private Course course;
 
-     */
-
-    public Student(String firstName, String lastName, LocalDateTime dateOfBirth, String courseTitle, LocalDateTime courseStartDate, String averageGrade) {
+    public Student(String firstName, String lastName, LocalDateTime dateOfBirth, String averageGrade) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.courseTitle = courseTitle;
-        this.courseStartDate = courseStartDate;
         this.averageGrade = averageGrade;
     }
 }
