@@ -38,3 +38,4 @@ out/
 
 ### PERSONAL ###
 src/main/resources/application.yml
+*.jar

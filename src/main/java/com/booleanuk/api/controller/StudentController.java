@@ -1,6 +1,8 @@
 package com.booleanuk.api.controller;
 
+import com.booleanuk.api.model.Course;
 import com.booleanuk.api.model.Student;
+import com.booleanuk.api.repository.CourseRepository;
 import com.booleanuk.api.repository.StudentRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
     @GetMapping
     public ResponseEntity<List<Student>>getAll(){
         return new ResponseEntity<>(this.studentRepository.findAll(), HttpStatus.OK);
@@ -62,5 +67,19 @@ public class StudentController {
 
         this.studentRepository.delete(studentToDelete);
         return new ResponseEntity<>(studentToDelete, HttpStatus.OK);
+    }
+
+    @PostMapping("/{studentId}/courses/{courseId}")
+    public ResponseEntity<Student> addOneCourseToStudent(@PathVariable int studentId, @PathVariable int courseId){
+        Course course = this.courseRepository.findById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        student.getCourses().add(course);
+        course.getStudents().add(student);
+        this.courseRepository.save(course);
+        this.studentRepository.save(student);
+
+        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 }

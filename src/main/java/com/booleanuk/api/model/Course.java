@@ -1,5 +1,7 @@
 package com.booleanuk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -25,10 +27,10 @@ public class Course {
 
     private String name;
 
-    @NotBlank
     private LocalDateTime startDate;
 
     @ManyToMany(mappedBy = "courses")
+    @JsonIgnoreProperties("courses")
     private Set<Student> students = new HashSet<>();
 
 }

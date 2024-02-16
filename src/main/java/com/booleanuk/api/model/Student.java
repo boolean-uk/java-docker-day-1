@@ -1,5 +1,6 @@
 package com.booleanuk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -31,7 +32,7 @@ public class Student {
     @NotBlank
     private String lastName;
 
-    @NotBlank
+
     private LocalDateTime dateOfBirth;
 
     @ManyToMany
@@ -40,6 +41,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @JsonIgnoreProperties("students")
     private Set<Course> courses = new HashSet<>();
 
     private Float averageGrade;
