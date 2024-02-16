@@ -1,6 +1,8 @@
 package com.booleanuk.api.controller;
 
+import com.booleanuk.api.model.Course;
 import com.booleanuk.api.model.Student;
+import com.booleanuk.api.repository.CourseRepository;
 import com.booleanuk.api.repository.StudentRepository;
 import com.booleanuk.api.response.ErrorResponse;
 import com.booleanuk.api.response.Response;
@@ -11,11 +13,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("students")
 public class StudentController {
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     @GetMapping
     public ResponseEntity<Response<?>> getAllStudents() {
@@ -29,6 +37,7 @@ public class StudentController {
         Student student = this.studentRepository.findById(id).orElse(null);
         if(student == null) {
             ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("Not found");
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
@@ -42,12 +51,12 @@ public class StudentController {
         if(student.getFirstName() == null
         || student.getLastName() == null
         || student.getDob() == null
-        || student.getCourseTitle() == null
-        || student.getCourseStart() == null
         || student.getAvgGrade() == 0)  {
             ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("Bad request");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
+
         this.studentRepository.save(student);
         StudentResponse studentResponse = new StudentResponse();
         studentResponse.set(student);
@@ -59,10 +68,9 @@ public class StudentController {
         if(student.getFirstName() == null
                 || student.getLastName() == null
                 || student.getDob() == null
-                || student.getCourseTitle() == null
-                || student.getCourseStart() == null
                 || student.getAvgGrade() == 0)  {
             ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("Bad request");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 
@@ -75,9 +83,33 @@ public class StudentController {
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDob(student.getDob());
-        studentToUpdate.setCourseTitle(student.getCourseTitle());
-        studentToUpdate.setCourseStart(student.getCourseStart());
         studentToUpdate.setAvgGrade(student.getAvgGrade());
+        List<Course> courses = new ArrayList<>();
+
+        // Remove student from courses they are already in...
+        for(Course ids : studentToUpdate.getCourses())
+        {
+            Course tempCourse = this.courseRepository.findById(ids.getId()).orElse(null);
+            if(tempCourse == null)  {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.set("Not found");
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
+            tempCourse.getStudents().remove(studentToUpdate);
+        }
+        // Then add them to the courses again
+        for(Course ids : student.getCourses())
+        {
+            Course tempCourse = this.courseRepository.findById(ids.getId()).orElse(null);
+            if(tempCourse == null)  {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.set("Not found");
+                return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+            }
+            courses.add(tempCourse);
+        }
+
+        studentToUpdate.setCourses(courses);
         this.studentRepository.save(studentToUpdate);
 
         StudentResponse studentResponse = new StudentResponse();
@@ -91,6 +123,7 @@ public class StudentController {
         if(studentToDelete == null)
         {
             ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.set("Not found");
             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 

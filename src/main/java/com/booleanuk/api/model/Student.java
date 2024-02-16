@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -24,11 +25,13 @@ public class Student {
     @Column
     private LocalDate dob;
 
-    @Column
-    private String courseTitle;
-
-    @Column
-    private LocalDate courseStart;
+    @ManyToMany
+    @JoinTable(
+            name = "Student_Course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Course> courses;
 
     @Column
     private double avgGrade;
@@ -37,15 +40,33 @@ public class Student {
             String firstName,
             String lastName,
             String dob,
-            String courseTitle,
-            String courseStart,
             double avgGrade
     )   {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = LocalDate.parse(dob);
-        this.courseTitle = courseTitle;
-        this.courseStart = LocalDate.parse(courseStart);
         this.avgGrade = avgGrade;
+    }
+
+    public Student(
+            String firstName,
+            String lastName,
+            String dob,
+            double avgGrade,
+            List<Course> courses
+    )   {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = LocalDate.parse(dob);
+        this.avgGrade = avgGrade;
+        this.courses = courses;
+    }
+
+    public Student(int id)  {
+        this.id = id;
+    }
+
+    public void addCourse(Course course)    {
+        this.courses.add(course);
     }
 }
