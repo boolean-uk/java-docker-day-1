@@ -62,8 +62,6 @@ public class StudentController {
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDateOfBirth(student.getDateOfBirth());
-        studentToUpdate.setCourseTitle(student.getCourseTitle());
-        studentToUpdate.setStartDateForCourse(student.getStartDateForCourse());
         studentToUpdate.setAverageGrade(student.getAverageGrade());
 
         try {

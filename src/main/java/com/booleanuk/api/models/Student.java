@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -26,20 +28,22 @@ public class Student {
     private String dateOfBirth;
 
     @Column
-    private String courseTitle;
-
-    @Column
-    private String startDateForCourse;
-
-    @Column
     private int averageGrade;
 
-    public Student(String firstName, String lastName, String dateOfBirth, String courseTitle, String startDateForCourse, int averageGrade) {
+    @ManyToOne
+    @JoinColumn(name ="course_id", nullable = false)
+    @JsonIncludeProperties(value = {"title"})
+    @JsonIgnoreProperties("course")
+    private Course course;
+
+    public Student(String firstName, String lastName, String dateOfBirth, int averageGrade) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-        this.courseTitle = courseTitle;
-        this.startDateForCourse = startDateForCourse;
         this.averageGrade = averageGrade;
+    }
+
+    public Student(int id) {
+        this.id = id;
     }
 }
