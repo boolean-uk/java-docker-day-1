@@ -13,30 +13,31 @@
 
 ## Core
 
-Create an API with the usual GET/PUT/POST/DELETE endpoints for students and a linked table containing details of courses the students are taking.
+Create an API with the usual GET/PUT/POST/DELETE endpoints.
 
-The API should serve user data for students attending a bootcamp, they will only ever be on a single course at a time.
+The API should serve user data for students attending a bootcamp.
 
-The data should include:
+The data for students should include:
 
-* Unique ID for students
+* Unique ID
 * First Name
 * Last Name
 * Date of Birth
 * Course Title
 * Start Date for Course
+* Average Grade
 
 Your API should connect to an ElephantSQL database instance that can be used for storing the data.
 
-Create a `jar` file for the completed application.
+Create a `jar` file for the completed application make sure it is excluded from your GitHub solution!!!!!
 
-Create a `Dockerfile` and any other associated files to allow you to deploy the application using a Docker Container.
+Create a `Dockerfile` and any other associated files to allow you to deploy the application using a Docker Container save it and the jar file to a sensible folder in your project (make sure the JAR file does not get pushed to GitHub).
 
-Do not share your credentials in the `application.yml` file. 
+Exclude your `application.yml` file from GitHub as normal. 
 
 To assess this we will clone your repository, add our own credentials to the cloned repository and use those to test that the application works as expected.
 
 ## Extension
 
-Extend the course details by adding another set of endpoints for modules, that make up courses. Modules can be part of multiple courses at the same time (EG they might complete a GitHub module in various courses, but the module itself has the same content across courses.) Link these to the students and courses in whatever way logically works for you. What extra endpoints does it make sense for a student t be able to view, that will give them extra insights and an overview of their studies? Add them to your solution.
+In addition to the Student details add in details of different Courses and reference them from the Student details as a Foreign Key relationship. The endpoints for Courses should be completed as expected.
 
