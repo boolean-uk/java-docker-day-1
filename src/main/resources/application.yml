@@ -5,3 +5,26 @@ server:
     include-binding-errors: always
     include-stacktrace: never
     include-exception: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://mouse.db.elephantsql.com:5432/vqxaokzu
+    username: vqxaokzu
+    password: RXbKPTKTV3iL1AQB1fTLl5G5yOPJcjB0
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+booleanuk:
+  app:
+    jwtSecret: ===============================BooleanUK=Spring==============================================
+    jwtExpirationMs: 86400000
+
