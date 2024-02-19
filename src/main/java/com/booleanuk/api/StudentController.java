@@ -34,8 +34,7 @@ public class StudentController {
         toUpdate.setFirstName(student.getFirstName());
         toUpdate.setLastName(student.getLastName());
         toUpdate.setDob(student.getDob());
-        toUpdate.setCourseTitle(student.getCourseTitle());
-        toUpdate.setCourseStartDate(student.getCourseStartDate());
+        toUpdate.setAverageGrade(student.getAverageGrade());
         students.save(toUpdate);
 
         return new ResponseEntity<>(toUpdate, HttpStatus.CREATED);
