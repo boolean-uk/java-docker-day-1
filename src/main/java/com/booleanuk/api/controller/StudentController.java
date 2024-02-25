@@ -1,5 +1,7 @@
 package com.booleanuk.api.controller;
+import com.booleanuk.api.model.Course;
 import com.booleanuk.api.model.Student;
+import com.booleanuk.api.repository.CourseRepository;
 import com.booleanuk.api.repository.StudentRepository;
 import com.booleanuk.api.response.StudentListResponse;
 import com.booleanuk.api.response.StudentResponse;
@@ -17,6 +19,9 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     @GetMapping
     public ResponseEntity<StudentListResponse> getAllStudents() {
         StudentListResponse studentListResponse = new StudentListResponse();
@@ -24,9 +29,16 @@ public class StudentController {
         return ResponseEntity.ok(studentListResponse);
     }
 
-    @PostMapping
-    public ResponseEntity<Response<?>> createStudent(@RequestBody Student student) {
+    private Course getACourse(int id){
+        return this.courseRepository.findById(id).orElse(null);
+    }
+    private Student getAStudent( int id){return this.studentRepository.findById(id).orElse(null);}
+
+    @PostMapping()
+    public ResponseEntity<Response<?>> createStudent( @RequestBody Student student) {
+
         StudentResponse studentResponse = new StudentResponse();
+
         try {
             studentResponse.set(this.studentRepository.save(student));
         } catch (Exception e) {
@@ -61,8 +73,6 @@ public class StudentController {
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDayOfBirth(student.getDayOfBirth());
-        studentToUpdate.setCourseTitle(student.getCourseTitle());
-        studentToUpdate.setStartDayOfCourse(student.getStartDayOfCourse());
         studentToUpdate.setAverageGrade(student.getAverageGrade());
 
         try {
@@ -90,4 +100,25 @@ public class StudentController {
         studentResponse.set(studentToDelete);
         return ResponseEntity.ok(studentResponse);
     }
+    @PostMapping("/{studentId}/courses/{courseId}")
+    public ResponseEntity<Response<?>> addCourseToStudent(@PathVariable int studentId, @PathVariable int courseId){
+        Course course = this.getACourse(courseId);
+        Student student = this.getAStudent(studentId);
+        if(course == null || student == null){
+            ErrorResponse error = new ErrorResponse();
+            error.set("not found");
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        }
+
+        student.getCourses().add(course);
+        course.getStudents().add(student);
+        this.courseRepository.save(course);
+        this.studentRepository.save(student);
+        StudentResponse studentResponse = new StudentResponse();
+        studentResponse.set(student);
+
+        return ResponseEntity.ok(studentResponse);
+    }
+
+
 }
