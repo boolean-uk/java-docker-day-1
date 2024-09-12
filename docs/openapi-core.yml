@@ -1,116 +1,302 @@
 openapi: 3.0.3
 info:
-  title: Java API Exercise - Core Criteria
-  description: |-
-  version: 0.2.2
+  title: Java API Exercise - Core + Extension Criteria
+  version: 0.1.0
 
 servers:
   - url: http://localhost:4000
 tags:
-  - name: examples
+  - name: students
+  - name: courses
 paths:
-  /examples:
+  /students:
     post:
       tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
+        - students
+      summary: Create a student
+      description: Endpoint to create a new student
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
-        201:
+        '201':
+          description: Student created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
     get:
       tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+        - students
+      summary: Get all students
+      description: Endpoint to retrieve all students
       responses:
-        200:
+        '200':
+          description: List of students retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
-    put:
+                $ref: '#/components/schemas/AllStudents'
+  /students/{id}:
+    get:
       tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
+        - students
+      summary: Get a student by ID
+      description: Endpoint to retrieve a student by ID
       parameters:
         - name: id
           in: path
-          description: The ID of the example to update
+          description: The ID of the student to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Student retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+    put:
+      tags:
+        - students
+      summary: Update a student
+      description: Endpoint to update an existing student
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the student to update
           required: true
           schema:
             type: integer
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
-        201:
+        '201':
+          description: Student updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
     delete:
       tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
+        - students
+      summary: Delete a student
+      description: Endpoint to delete a student by ID
       parameters:
         - name: id
           in: path
-          description: The ID of the example to delete
+          description: The ID of the student to delete
           required: true
           schema:
             type: integer
       responses:
-        200:
+        '200':
+          description: Student deleted successfully
+
+  /courses:
+    post:
+      tags:
+        - courses
+      summary: Create a course
+      description: Endpoint to create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+      responses:
+        '201':
+          description: Course created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
-
+                $ref: '#/components/schemas/Course'
+    get:
+      tags:
+        - courses
+      summary: Get all courses
+      description: Endpoint to retrieve all courses
+      responses:
+        '200':
+          description: List of courses retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllCourses'
+  /courses/{id}:
+    get:
+      tags:
+        - courses
+      summary: Get a course by ID
+      description: Endpoint to retrieve a course by ID
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Course retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    put:
+      tags:
+        - courses
+      summary: Update a course
+      description: Endpoint to update an existing course
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+      responses:
+        '201':
+          description: Course updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+    delete:
+      tags:
+        - courses
+      summary: Delete a course
+      description: Endpoint to delete a course by ID
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Course deleted successfully
+  /courses/{id}/students/{id2}:
+    post:
+      tags:
+        - courses
+      summary: Add a student to a course
+      description: Endpoint to add a student to a course
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the course to add the student to
+          required: true
+          schema:
+            type: integer
+        - name: id2
+          in: path
+          description: The ID of the student to add to the course
+          required: true
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Student added to course successfully
+        '404':
+          description: Course or student not found
 components:
   schemas:
-    CreateExample:
+    CreateStudent:
       type: object
-      required: [propertyOne, propertyTwo]
+      required: [firstName, lastName, dateOfBirth, averageGrade]
       properties:
-        propertyOne:
+        firstName:
           type: string
-          example: "Example Value"
-        propertyTwo:
-          type: email
-          format: email
-          example: "example@email.value"
-    Example:
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        dateOfBirth:
+          type: string
+          format: date
+          example: '2024-02-16'
+        averageGrade:
+          type: number
+          format: float
+          example: 85.5
+    Student:
       type: object
       properties:
         id:
           type: integer
           example: 1
-        propertyOne:
+        firstName:
           type: string
-          example: "Example Value"
-        propertyTwo:
+          example: John
+        lastName:
           type: string
-          example: "example@email.value"
+          example: Doe
+        dateOfBirth:
+          type: string
+          format: date
+          example: '2024-02-16'
+        courseId:
+          type: integer
+          example: 1
+        averageGrade:
+          type: number
+          format: float
+          example: 85.5
         createdAt:
           type: string
-          format: DateTime
-          pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
+          format: date-time
+          example: '2024-02-16T11:01:56Z'
+    AllStudents:
       type: array
       items:
-        $ref: '#/components/schemas/Example'
+        $ref: '#/components/schemas/Student'
+
+    CreateCourse:
+      type: object
+      required: [title, startDate]
+      properties:
+        title:
+          type: string
+          example: Introduction to Programming
+        startDate:
+          type: string
+          format: date
+          example: '2024-02-16'
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Introduction to Programming
+        startDate:
+          type: string
+          format: date
+          example: '2024-02-16'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-02-16T11:01:56Z'
+    AllCourses:
+      type: array
+      items:
+        $ref: '#/components/schemas/Course'
