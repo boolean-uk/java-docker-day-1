@@ -1,116 +1,262 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: Java API Exercise - Core Criteria
-  description: |-
-  version: 0.2.2
+  title: Student-Course API
+  version: 1.0.0
+  description: API for managing students, courses, and loans
+  contact:
+    name: Your Name
 
 servers:
   - url: http://localhost:4000
+
 tags:
-  - name: examples
+  - name: students
+  - name: courses
+
 paths:
-  /examples:
-    post:
-      tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateExample'
-      responses:
-        201:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Example'
+  students:
     get:
       tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+        - students
+      description: Get all students
+      operationId: getAllStudents
       responses:
-        200:
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
-    put:
+                $ref: '#/components/schemas/AllStudents'
+    post:
       tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
-      parameters:
-        - name: id
-          in: path
-          description: The ID of the example to update
-          required: true
-          schema:
-            type: integer
+        - students
+      description: Create a new student
+      operationId: createStudent
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/AddStudent'
       responses:
-        201:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Example'
-    delete:
+        '201':
+          description: Student created successfully
+
+  students/{studentId}:
+    get:
       tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
+        - students
+      description: Get a student by ID
+      operationId: getStudentById
       parameters:
-        - name: id
+        - name: studentId
           in: path
-          description: The ID of the example to delete
           required: true
           schema:
             type: integer
+          description: ID of the student to get
       responses:
-        200:
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: Student not found
+
+    put:
+      tags:
+        - students
+      description: Update a student by ID
+      operationId: updateStudent
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the student to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddStudent'
+      responses:
+        '200':
+          description: Student updated successfully
+        '404':
+          description: Student not found
+
+    delete:
+      tags:
+        - students
+      description: Delete a student by ID
+      operationId: deleteStudent
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the student to delete
+      responses:
+        '204':
+          description: Student deleted successfully
+        '404':
+          description: Student not found
+
+  courses:
+    get:
+      tags:
+        - courses
+      description: Get all courses
+      operationId: getAllCourses
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllCourses'
+    post:
+      tags:
+        - courses
+      description: Create a new course
+      operationId: createCourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCourse'
+      responses:
+        '201':
+          description: Course created successfully
+
+  courses/{courseId}:
+    get:
+      tags:
+        - courses
+      description: Get a course by ID
+      operationId: getCourseById
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the course to get
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+
+    put:
+      tags:
+        - courses
+      description: Update a course by ID
+      operationId: updateCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the course to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCourse'
+      responses:
+        '200':
+          description: Course updated successfully
+        '404':
+          description: Course not found
+
+    delete:
+      tags:
+        - courses
+      description: Delete a course by ID
+      operationId: deleteCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the course to delete
+      responses:
+        '204':
+          description: Course deleted successfully
+        '404':
+          description: Course not found
 
 components:
   schemas:
-    CreateExample:
+    AddStudent:
       type: object
-      required: [propertyOne, propertyTwo]
+      required: [first_name, last_name, dob]
       properties:
-        propertyOne:
+        first_name:
           type: string
-          example: "Example Value"
-        propertyTwo:
-          type: email
-          format: email
-          example: "example@email.value"
-    Example:
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        dob:
+          type: string
+          format: date-time
+          example: "2024-02-14T08:00:00Z"
+
+    Student:
       type: object
       properties:
-        id:
-          type: integer
-          example: 1
-        propertyOne:
+        first_name:
           type: string
-          example: "Example Value"
-        propertyTwo:
+          example: "John"
+        last_name:
           type: string
-          example: "example@email.value"
-        createdAt:
+          example: "Doe"
+        dob:
           type: string
-          format: DateTime
-          pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
+          format: date-time
+          example: "2024-02-14T08:00:00Z"
+
+    AllStudents:
       type: array
       items:
-        $ref: '#/components/schemas/Example'
+        $ref: '#/components/schemas/Student'
+
+    AddCourse:
+      type: object
+      required: [course_title, start_date]
+      properties:
+        course_title:
+          type: string
+          example: "Math 101"
+        start_date:
+          type: string
+          format: date-time
+          example: "2024-02-14T08:00:00Z"
+
+    Course:
+      type: object
+      properties:
+        course_title:
+          type: string
+          example: "Math 101"
+        start_date:
+          type: string
+          format: date-time
+          example: "2024-02-14T08:00:00Z"
+
+    AllCourses:
+      type: array
+      items:
+        $ref: '#/components/schemas/Course'
+
