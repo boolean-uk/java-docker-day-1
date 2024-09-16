@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+application.yml
+docker-0.0.1.jar
