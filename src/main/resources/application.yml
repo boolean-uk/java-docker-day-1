@@ -5,3 +5,19 @@ server:
     include-binding-errors: always
     include-stacktrace: never
     include-exception: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-icy-rice-a2r5pk0j.eu-central-1.aws.neon.tech:5432/test
+    username: test
+    password: ZTJ3qHwCViQ4
+    max-active: 3
+    max-idle: 3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
