@@ -7,46 +7,46 @@ info:
 servers:
   - url: http://localhost:4000
 tags:
-  - name: examples
+  - name: students
 paths:
-  /examples:
+  /students:
     post:
       tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
+        - students
+      summary: Student POST route
+      description: Description of an student POST route
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
     get:
       tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+        - students
+      summary: Student GET route
+      description: Description of an student GET route
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
+                $ref: '#/components/schemas/AllStudents'
+  /students/{id}:
     put:
       tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
+        - students
+      summary: Student PUT route
+      description: Description of an student PUT route
       parameters:
         - name: id
           in: path
-          description: The ID of the example to update
+          description: The ID of the student to update
           required: true
           schema:
             type: integer
@@ -54,22 +54,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
     delete:
       tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
+        - students
+      summary: Student DELETE route
+      description: Description of an student DELETE route
       parameters:
         - name: id
           in: path
-          description: The ID of the example to delete
+          description: The ID of the student to delete
           required: true
           schema:
             type: integer
@@ -78,39 +78,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
 
 components:
   schemas:
-    CreateExample:
+    CreateStudent:
       type: object
       required: [propertyOne, propertyTwo]
       properties:
         propertyOne:
           type: string
-          example: "Example Value"
+          student: "Student Value"
         propertyTwo:
           type: email
           format: email
-          example: "example@email.value"
-    Example:
+          student: "student@email.value"
+    Student:
       type: object
       properties:
         id:
           type: integer
-          example: 1
+          student: 1
         propertyOne:
           type: string
-          example: "Example Value"
+          student: "Student Value"
         propertyTwo:
           type: string
-          example: "example@email.value"
+          student: "student@email.value"
         createdAt:
           type: string
           format: DateTime
           pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
+          student: 2023-03-14T11:01:56.633+00:00
+    AllStudents:
       type: array
       items:
-        $ref: '#/components/schemas/Example'
+        $ref: '#/components/schemas/Student'
