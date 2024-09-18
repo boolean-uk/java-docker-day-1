@@ -15,7 +15,7 @@
 
 Create an API with the usual GET/PUT/POST/DELETE endpoints.
 
-The API should serve user data for students attending a bootcamp.
+The API should serve course data for students attending a bootcamp.
 
 The data for students should include:
 
@@ -25,7 +25,7 @@ The data for students should include:
 * Date of Birth
 * Course Title
 * Start Date for Course
-* Average Grade
+* Average StudentCourse
 
 Your API should connect to an ElephantSQL database instance that can be used for storing the data.
 
