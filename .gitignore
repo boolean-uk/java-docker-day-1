@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Personal ###
+src/main/resources/application.yml
+*.yml
+*.jar
+#git rm --cached src/main/resources/application.yml
