@@ -4,8 +4,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.3'
 }
 
-group = 'com.booleanuk'
-version = '0.0.1'
+group = 'com.booleanuk.api'
+version = '0.0.1__Ateeb_API'
 sourceCompatibility = '17'
 
 configurations {
@@ -30,4 +30,14 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+jar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	manifest {
+		attributes 'Main-Class': 'com.booleanuk.api.Main'
+	}
+
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
