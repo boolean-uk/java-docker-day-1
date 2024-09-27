@@ -1,52 +1,87 @@
 openapi: 3.0.3
 info:
-  title: Java API Exercise - Core Criteria
-  description: |-
+  title: Java & Docker Day 1
+  description: Java Spring API with jar file containerised in Docker, Day 1
   version: 0.2.2
 
 servers:
   - url: http://localhost:4000
 tags:
-  - name: examples
+  - name: students
 paths:
-  /examples:
+  /students:
     post:
       tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
+        - students
+      summary: Create new student
+      description: Add new student to repository
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
-        201:
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: "Could not create student, please check all required fields are correct."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400'
+
     get:
       tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+        - students
+      summary: Get all students
+      description: Get all students in repository as list
       responses:
-        200:
+        '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
+                $ref: '#/components/schemas/AllStudents'
+
+    /students/{id}:
+      get:
+        tags:
+          - students
+        summary: Get a student
+        description: Get a specific students by their id
+        parameters:
+          - name: id
+            in: path
+            description: The ID of the student to retrieve
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Get the specified student from the repository given their ID
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Student'
+          '404':
+            description: "No student with that id were found"
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error404'
+
+  /students/{id}:
     put:
       tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
+        - students
+      summary: Update student
+      description: Update a student in the repository
       parameters:
         - name: id
           in: path
-          description: The ID of the example to update
+          description: The ID of the student to update
           required: true
           schema:
             type: integer
@@ -54,63 +89,125 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateStudent'
       responses:
-        201:
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: "Could not update the student, please check all required fields are correct."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400'
+        '404':
+          description: "No student with that id were found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404'
+
     delete:
       tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
+        - students
+      summary: Delete student
+      description: Delete student from respository
       parameters:
         - name: id
           in: path
-          description: The ID of the example to delete
+          description: The ID of the student to delete
           required: true
           schema:
             type: integer
       responses:
-        200:
+        '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: "No students with that id were found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404'
 
 components:
   schemas:
-    CreateExample:
+    CreateStudent:
       type: object
-      required: [propertyOne, propertyTwo]
+      required: [first_name, last_name, date_of_birth, course_title, start_date_for_course, average_grade]
       properties:
-        propertyOne:
+        first_name:
           type: string
-          example: "Example Value"
-        propertyTwo:
-          type: email
-          format: email
-          example: "example@email.value"
-    Example:
+          example: "Lisa"
+        last_name:
+          type: string
+          example: "Larsson"
+        date_of_birth:
+          type: string
+          format: DateTime
+          pattern: YYYY-MM-DDTHH:MM:SS
+          example: 2000-02-17T11:01:56.444+00:00
+        course_title:
+          type: string
+          example: "Java 101"
+        start_date_for_course:
+          type: string
+          format: DateTime
+          pattern: YYYY-MM-DDTHH:MM:SS
+          example: 2024-04-11T09:00:00.000+00:00
+        average_grade:
+          type: string
+          example: "A+"
+
+    Student:
       type: object
       properties:
         id:
           type: integer
           example: 1
-        propertyOne:
-          type: string
-          example: "Example Value"
-        propertyTwo:
-          type: string
-          example: "example@email.value"
-        createdAt:
-          type: string
-          format: DateTime
-          pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
+        properties:
+          first_name:
+            type: string
+            example: "Lisa"
+          last_name:
+            type: string
+            example: "Larsson"
+          date_of_birth:
+            type: string
+            format: DateTime
+            pattern: YYYY-MM-DDTHH:MM:SS
+            example: 2000-02-17T11:01:56.444+00:00
+          course_title:
+            type: string
+            example: "Java 101"
+          start_date_for_course:
+            type: string
+            format: DateTime
+            pattern: YYYY-MM-DDTHH:MM:SS
+            example: 2024-04-11T09:00:00.000+00:00
+          average_grade:
+            type: string
+            example: "A+"
+
+    AllStudents:
       type: array
       items:
-        $ref: '#/components/schemas/Example'
+        $ref: '#/components/schemas/Student'
+
+    Error400:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "bad request"
+
+    Error404:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "not found"
