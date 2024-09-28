@@ -1,52 +1,61 @@
 openapi: 3.0.3
 info:
   title: Java API Exercise - Core Criteria
-  description: |-
+  description: |
+    Version: 0.2.2
   version: 0.2.2
 
 servers:
   - url: http://localhost:4000
+
 tags:
-  - name: examples
+  - name: students, courses
+
 paths:
-  /examples:
+  /courses:
     post:
       tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
+        - courses
+      summary: course POST route
+      description: Adds course
+      operationId: addCourse
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateCourse'
       responses:
-        201:
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Course'
     get:
       tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+        - courses
+      summary: Course GET route
+      description: Get all courses
+      operationId: getAllCourses
       responses:
-        200:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
+                $ref: '#/components/schemas/AllCourses'
+
+  /courses/{id}:
     put:
       tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
+        - courses
+      summary: Course PUT route
+      description: Update course
+      operationId: updateCourse
       parameters:
         - name: id
           in: path
-          description: The ID of the example to update
+          description: The ID of the course to update
           required: true
           schema:
             type: integer
@@ -54,63 +63,184 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateExample'
+              $ref: '#/components/schemas/CreateCourse'
       responses:
-        201:
+        '201':
+          description: Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Course'
     delete:
       tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
+        - courses
+      summary: Course DELETE route
+      description: Deletes course
+      operationId: deleteCourse
       parameters:
         - name: id
           in: path
-          description: The ID of the example to delete
+          description: The ID of the course to delete
           required: true
           schema:
             type: integer
       responses:
-        200:
+        '200':
+          description: Deleted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/Course'
+  /students:
+    post:
+      tags:
+        - students
+      summary: Student POST route
+      description: Adds student
+      operationId: addStudent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudent'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+    get:
+      tags:
+        - students
+      summary: Student GET route
+      description: Get all students
+      operationId: getAllStudents
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllStudents'
+
+  /students/{id}:
+    put:
+      tags:
+        - students
+      summary: Student PUT route
+      description: Update student
+      operationId: updateStudent
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the student to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudent'
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+    delete:
+      tags:
+        - students
+      summary: Student DELETE route
+      description: Deletes student
+      operationId: deleteStudent
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the student to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
 
 components:
   schemas:
-    CreateExample:
+    CreateCourse:
       type: object
-      required: [propertyOne, propertyTwo]
+      required: [ title, startDate ]
       properties:
-        propertyOne:
+        title:
           type: string
-          example: "Example Value"
-        propertyTwo:
-          type: email
-          format: email
-          example: "example@email.value"
-    Example:
+          example: "Course"
+        startDate:
+          type: string
+          example: "04.04.03"
+    Course:
       type: object
       properties:
         id:
           type: integer
           example: 1
-        propertyOne:
+        title:
           type: string
-          example: "Example Value"
-        propertyTwo:
+          example: "Course"
+        startDate:
           type: string
-          example: "example@email.value"
-        createdAt:
-          type: string
-          format: DateTime
-          pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
+          example: "03.03.03"
+    AllCourses:
       type: array
       items:
-        $ref: '#/components/schemas/Example'
+        $ref: '#/components/schemas/Course'
+
+    CreateStudent:
+      type: object
+      required: [firstName, lastName, dob, courseTitle, courseStartDate]
+      properties:
+        firstName:
+          type: string
+          example: "Jared"
+        lastName:
+          type: string
+          example: "Leto"
+        dob:
+          type: string
+          example: "08.05.00"
+        courseTitle:
+          type: string
+          example: "Technology"
+        courseStartDate:
+          type: string
+          example: "08.05.24"
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: "Jared"
+        lastName:
+          type: string
+          example: "Leto"
+        dob:
+          type: string
+          example: "08.05.00"
+        courseTitle:
+          type: string
+          example: "Technology"
+        courseStartDate:
+          type: string
+          example: "08.05.24"
+    AllStudents:
+      type: array
+      items:
+        $ref: '#/components/schemas/Student'
