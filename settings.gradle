@@ -1,1 +1,3 @@
 rootProject.name = 'java.docker.day.1'
+include 'docker'
+

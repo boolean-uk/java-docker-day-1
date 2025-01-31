@@ -1,0 +1,396 @@
+_type: export
+__export_format: 4
+__export_date: 2025-01-31T13:54:55.478Z
+__export_source: insomnia.desktop.app:v10.3.0
+resources:
+  - _id: req_828870d3eff54dfa9099abaf5f79b66e
+    parentId: fld_306feb8abd664131a7f03b0988d68d66
+    modified: 1738331673006
+    created: 1738329086308
+    url: localhost:4000/students/1/course/2
+    name: Delete student course
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738331090936
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_306feb8abd664131a7f03b0988d68d66
+    parentId: wrk_01addc5c69024f7285be4f851f37875b
+    modified: 1738331086152
+    created: 1738331086152
+    name: Student courses
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1738331086152
+    environmentType: kv
+    _type: request_group
+  - _id: wrk_01addc5c69024f7285be4f851f37875b
+    parentId: null
+    modified: 1738320057872
+    created: 1738320057872
+    name: java-docker-day-1 students courses
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_2d02b47f790b446fb14aa483b87ba856
+    parentId: fld_306feb8abd664131a7f03b0988d68d66
+    modified: 1738331684140
+    created: 1738330184706
+    url: localhost:4000/students/3
+    name: Add student course
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": 3
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738331090836
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3ada3a4069574836ade56c70469cd5f7
+    parentId: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    modified: 1738330609927
+    created: 1738330570494
+    url: localhost:4000/courses
+    name: Create
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"title": "Beekeeping 201",
+        	"startDate": "2025-02-01T23:00:00.000+00:00"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330556559
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    parentId: wrk_01addc5c69024f7285be4f851f37875b
+    modified: 1738320126436
+    created: 1738320126436
+    name: Courses
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1738320126436
+    environmentType: kv
+    _type: request_group
+  - _id: req_303eb55b315f46f7a34012a10854c96a
+    parentId: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    modified: 1738331003999
+    created: 1738330556459
+    url: localhost:4000/courses/2
+    name: Delete
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330556459
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7ffee086c4bf4d73a8e74a0d1e8c36c5
+    parentId: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    modified: 1738330539844
+    created: 1738330508949
+    url: localhost:4000/courses/1
+    name: Update
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"title": "Beekeeping 101",
+        	"startDate": "2035-02-01T23:00:00.000+00:00"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330474771
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_108e479ffeeb4d14aeeef9b43eff4ee4
+    parentId: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    modified: 1738330502735
+    created: 1738330474671
+    url: localhost:4000/courses/1
+    name: Get one
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330474671
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_717101483ec24db393776153270ef20f
+    parentId: fld_136e14e73b8d45c48a21b30e9dd7fdea
+    modified: 1738320140895
+    created: 1738320130864
+    url: localhost:4000/courses
+    name: Get all
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738320132730
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4fc446810dfa4d3d9494b3a42598f150
+    parentId: fld_60af11ee9ee1495a898ce8f3562fb626
+    modified: 1738331608191
+    created: 1738331536007
+    url: localhost:4000/students
+    name: Create
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"firstName": "Don.",
+        	"lastName": "Joe",
+        	"dateOfBirth": "2004-12-31T23:00:00.000+00:00",
+        	"averageGrade": 3.8
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738331536007
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_60af11ee9ee1495a898ce8f3562fb626
+    parentId: wrk_01addc5c69024f7285be4f851f37875b
+    modified: 1738320072741
+    created: 1738320072741
+    name: Students
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1738320072741
+    environmentType: kv
+    _type: request_group
+  - _id: req_60e62c4cd2f24701b0b1825a34c3241d
+    parentId: fld_60af11ee9ee1495a898ce8f3562fb626
+    modified: 1738331546371
+    created: 1738330860600
+    url: localhost:4000/students/1
+    name: Delete
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330860600
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8ae8afb772124e6ea8ac61362db5fa95
+    parentId: fld_60af11ee9ee1495a898ce8f3562fb626
+    modified: 1738330791032
+    created: 1738330740354
+    url: localhost:4000/students/1
+    name: Update
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"firstName": "John Bee.",
+        	"lastName": "Goodman",
+        	"dateOfBirth": "2001-12-31T23:00:00.000+00:00",
+        	"averageGrade": 4.4
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738330740354
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c874e18c0bc04dcd8b0f2214ff63bcb0
+    parentId: fld_60af11ee9ee1495a898ce8f3562fb626
+    modified: 1738320094907
+    created: 1738320063638
+    url: localhost:4000/students
+    name: Get all
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738320074544
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a22b601dbabb48378ad80794b87d26f7
+    parentId: fld_60af11ee9ee1495a898ce8f3562fb626
+    modified: 1738331649198
+    created: 1738320092615
+    url: localhost:4000/students/3
+    name: Get one
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.3.0
+    authentication: {}
+    metaSortKey: -1738286129955.5
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_ea84ed37b0b2bf2002af1b7fa0aea2a56641e018
+    parentId: wrk_01addc5c69024f7285be4f851f37875b
+    modified: 1738320057875
+    created: 1738320057875
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1738320057875
+    environmentType: kv
+    _type: environment
+  - _id: jar_ea84ed37b0b2bf2002af1b7fa0aea2a56641e018
+    parentId: wrk_01addc5c69024f7285be4f851f37875b
+    modified: 1738320057877
+    created: 1738320057877
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
