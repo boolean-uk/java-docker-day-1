@@ -5,3 +5,19 @@ server:
     include-binding-errors: always
     include-stacktrace: never
     include-exception: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-morning-mouse-a99d0k74-pooler.gwc.azure.neon.tech:5432/api-sql-intro
+    username: api-sql-intro_owner
+    password: npg_TADZ5WrGoO9j
+    max-active: 3
+    max-idle: 3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
