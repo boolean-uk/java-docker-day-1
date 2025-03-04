@@ -1,116 +1,120 @@
 openapi: 3.0.3
 info:
   title: Java API Exercise - Core Criteria
-  description: |-
+  description: API for managing student data in a bootcamp
   version: 0.2.2
 
 servers:
   - url: http://localhost:4000
 tags:
-  - name: examples
+  - name: students
 paths:
-  /examples:
-    post:
-      tags:
-        - examples
-      summary: Example POST route
-      description: Description of an example POST route
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateExample'
-      responses:
-        201:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Example'
+  /students:
     get:
-      tags:
-        - examples
-      summary: Example GET route
-      description: Description of an example GET route
+      summary: Get all students
       responses:
-        200:
+        '200':
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/AllExamples'
-  /examples/{id}:
-    put:
-      tags:
-        - examples
-      summary: Example PUT route
-      description: Description of an example PUT route
-      parameters:
-        - name: id
-          in: path
-          description: The ID of the example to update
-          required: true
-          schema:
-            type: integer
+              example:
+                students:
+                  - id: 1
+                    firstName: John
+                    lastName: Doe
+                    dob: '1990-01-01'
+                    courseTitle: Web Development
+                    startDate: '2024-02-01'
+                    averageGrade: 85.5
+                  - id: 2
+                    firstName: Jane
+                    lastName: Smith
+                    dob: '1992-05-15'
+                    courseTitle: Data Science
+                    startDate: '2024-02-15'
+                    averageGrade: 92.0
+    post:
+      summary: Add a new student
       requestBody:
+        required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/CreateExample'
+            example:
+              firstName: John
+              lastName: Doe
+              dob: '1990-01-01'
+              courseTitle: Web Development
+              startDate: '2024-02-01'
+              averageGrade: 85.5
       responses:
-        201:
+        '201':
+          description: Student added successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Example'
-    delete:
-      tags:
-        - examples
-      summary: Example DELETE route
-      description: Description of an example DELETE route
-      parameters:
-        - name: id
-          in: path
-          description: The ID of the example to delete
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Example'
+              example:
+                message: Student added successfully
+                student:
+                  id: 3
+                  firstName: John
+                  lastName: Doe
+                  dob: '1990-01-01'
+                  courseTitle: Web Development
+                  startDate: '2024-02-01'
+                  averageGrade: 85.5
 
-components:
-  schemas:
-    CreateExample:
-      type: object
-      required: [propertyOne, propertyTwo]
-      properties:
-        propertyOne:
-          type: string
-          example: "Example Value"
-        propertyTwo:
-          type: email
-          format: email
-          example: "example@email.value"
-    Example:
-      type: object
-      properties:
-        id:
+  /students/{studentId}:
+    parameters:
+      - name: studentId
+        in: path
+        required: true
+        schema:
           type: integer
-          example: 1
-        propertyOne:
-          type: string
-          example: "Example Value"
-        propertyTwo:
-          type: string
-          example: "example@email.value"
-        createdAt:
-          type: string
-          format: DateTime
-          pattern: YYYY-MM-DDTHH:MM:SS
-          example: 2023-03-14T11:01:56.633+00:00
-    AllExamples:
-      type: array
-      items:
-        $ref: '#/components/schemas/Example'
+    get:
+      summary: Get a specific student by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                student:
+                  id: 1
+                  firstName: John
+                  lastName: Doe
+                  dob: '1990-01-01'
+                  courseTitle: Web Development
+                  startDate: '2024-02-01'
+                  averageGrade: 85.5
+    put:
+      summary: Update an existing student by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              firstName: UpdatedJohn
+              lastName: UpdatedDoe
+              dob: '1990-01-01'
+              courseTitle: Web Development
+              startDate: '2024-02-01'
+              averageGrade: 90.0
+      responses:
+        '200':
+          description: Student updated successfully
+          content:
+            application/json:
+              example:
+                message: Student updated successfully
+                student:
+                  id: 1
+                  firstName: UpdatedJohn
+                  lastName: UpdatedDoe
+                  dob: '1990-01-01'
+                  courseTitle: Web Development
+                  startDate: '2024-02-01'
+                  averageGrade: 90.0
+    delete:
+      summary: Delete a student by ID
+      responses:
+        '200':
+          description: Student deleted successfully
