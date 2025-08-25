@@ -37,3 +37,4 @@ out/
 .vscode/
 
 application.yml
+src/main/docker/java.docker.day.1-0.0.1.jar
