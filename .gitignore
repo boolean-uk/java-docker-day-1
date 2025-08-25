@@ -35,5 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
-
+*.jar
 application.yml
